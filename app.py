@@ -17,7 +17,7 @@ class InferlessPythonModel:
         prompt = inputs.get('prompt', None)
 
         input_tokens = self.tokenizer.encode(prompt, return_tensors="pt").to("cuda:0")
-        output = self.model.generate(input_tokens)
+        output = self.model.generate(input_tokens, max_new_tokens=1000, pad_token_id=self.tokenizer.eos_token_id)
 
         output_text = self.tokenizer.batch_decode(output, skip_special_tokens = True)[0]
         result = {"output": output_text}
